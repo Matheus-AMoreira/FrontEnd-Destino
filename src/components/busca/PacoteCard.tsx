@@ -1,13 +1,10 @@
-import { ROUTES } from "@/paths";
-import { useNavigate } from "react-router-dom";
+import type { Pacote } from "#/utils/type/Pacote";
+import { useNavigate } from "@tanstack/react-router";
+
 import placeholder from "/placeholder.jpg";
-import type { Pacote } from "@/pages/landingPage/LandingPage";
+
 import { FaMoneyCheckAlt } from "react-icons/fa";
 import { MdOutlineMyLocation } from "react-icons/md";
-
-interface PacoteCardProps {
-  pacote: Pacote;
-}
 
 const formatarValor = (valor: number) => {
   return new Intl.NumberFormat("pt-BR", {
@@ -16,14 +13,19 @@ const formatarValor = (valor: number) => {
   }).format(valor);
 };
 
-export default function PacoteCard({ pacote }: PacoteCardProps) {
+type PacoteCard = {
+  pacote: Pacote;
+};
+
+export default function PacoteCard({ pacote }: PacoteCard) {
   const navigate = useNavigate();
 
   const handleVisualizar = () => {
-    navigate(ROUTES.PACOTE_DETALHES.replace(":nome", pacote.nome));
+    navigate({ to: "/pacote/$nome", params: { nome: pacote.nome } });
   };
 
-  const destino = pacote.hotel?.cidade?.nome || "Destino Desconhecido";
+  const destino =
+    pacote.ofertas[0].hotel?.cidade?.nome || "Destino Desconhecido";
   const fotoUrl = pacote.fotosDoPacote?.fotoDoPacote || placeholder;
 
   return (
@@ -54,13 +56,13 @@ export default function PacoteCard({ pacote }: PacoteCardProps) {
         <p className="text-sm text-gray-600 line-clamp-2 mb-4 flex-1">
           {pacote.descricao}
         </p>
-        <div className="flex justify-between items-end pt-4 border-t border-gray-100">
+        <div className="block justify-between items-end pt-4 border-t border-gray-100">
           <div>
             <p className="text-xs text-gray-400 uppercase">
               <FaMoneyCheckAlt className="text-xl" />A partir de
             </p>
             <p className="text-xl font-bold text-blue-600">
-              {formatarValor(pacote.preco)}
+              {formatarValor(pacote.ofertas[0].preco)}
             </p>
           </div>
           <button
@@ -74,5 +76,3 @@ export default function PacoteCard({ pacote }: PacoteCardProps) {
     </div>
   );
 }
-
-export type { Pacote };

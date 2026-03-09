@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import logo from "/LogoPaulaViagensVetor_2.png";
+import { Link } from "@tanstack/react-router";
+import logo from "/logo.png";
 import { PiMapPinAreaFill } from "react-icons/pi";
 import { MdContactMail } from "react-icons/md";
 import { RiUserFollowFill } from "react-icons/ri";

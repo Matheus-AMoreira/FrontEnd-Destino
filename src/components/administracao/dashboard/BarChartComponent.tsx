@@ -21,13 +21,14 @@ interface BarChartComponentProps {
   }[];
   year: number;
   setYear: Dispatch<React.SetStateAction<number>>;
+  isLoading: boolean;
 }
 
 // Gera uma lista de anos a partir de 2020 até ano atual + 1
 const currentYear = new Date().getFullYear() + 1;
 const years = Array.from(
   { length: currentYear - 2020 + 1 },
-  (_, i) => currentYear - i
+  (_, i) => currentYear - i,
 );
 
 export const BarChartComponent: React.FC<BarChartComponentProps> = ({
