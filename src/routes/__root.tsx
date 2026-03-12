@@ -4,8 +4,6 @@ import { TanStackDevtools } from "@tanstack/react-devtools";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import "../styles.css";
-import { useEffect } from "react";
-import { useSession } from "#/store/sessionStore";
 
 export const Route = createRootRoute({
   component: RootComponent,
@@ -14,12 +12,6 @@ export const Route = createRootRoute({
 const queryClient = new QueryClient();
 
 function RootComponent() {
-  const checkSession = useSession((state) => state.checkSession);
-
-  useEffect(() => {
-    checkSession();
-  }, []);
-
   return (
     <QueryClientProvider client={queryClient}>
       <Outlet />

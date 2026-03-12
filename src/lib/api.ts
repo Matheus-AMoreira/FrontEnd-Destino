@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = import.meta.env.VITE_API_URL || "http://localhost:8080/api";
+const baseURL = import.meta.env.DEV ? "/api" : import.meta.env.VITE_API_URL;
 
 const api = axios.create({
   baseURL: baseURL,
@@ -26,7 +26,7 @@ api.interceptors.request.use((config) => {
 });
 
 let handleTokenRefresh: () => Promise<boolean> = async () => false;
-let handleLogout: () => void = () => { };
+let handleLogout: () => void = () => {};
 
 let isRefreshing = false;
 let failedQueue: Array<{
@@ -58,12 +58,13 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    // Se for 401 e a requisição original não for para login ou renovar token
+    // Se for 401 e a requisição original não for para autenticação ou rota pública
     if (
       error.response?.status === 401 &&
       !originalRequest._retry &&
-      !originalRequest.url?.includes("auth/entrar") &&
-      !originalRequest.url?.includes("auth/renovar-token")
+      !originalRequest.url?.includes("/auth/") &&
+      !originalRequest.url?.includes("auth/") &&
+      !originalRequest.url?.includes("/publico/")
     ) {
       if (isRefreshing) {
         return new Promise(function (resolve, reject) {

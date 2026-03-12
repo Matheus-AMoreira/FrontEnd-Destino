@@ -1,4 +1,5 @@
 import api from "#/lib/api";
+import { Navigate } from "@tanstack/react-router";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -25,7 +26,7 @@ type UserState = {
 
 type UserActions = {
   login: (creds: LoginParams) => Promise<{ success: boolean; error?: string }>;
-  logout: () => Promise<void>;
+  logout: (shouldRedirect?: boolean) => Promise<void>;
   checkSession: () => Promise<boolean>;
   clearError: () => void;
 };
@@ -71,7 +72,7 @@ export const useSession = create<UserState & UserActions>()(
         }
       },
 
-      logout: async () => {
+      logout: async (shouldRedirect = true) => {
         set({ isLoading: true });
         try {
           await api.post("auth/sair", {});
@@ -84,8 +85,10 @@ export const useSession = create<UserState & UserActions>()(
             isLoading: false,
             error: null,
           });
-          // Força o redirecionamento com page reload para limpar a memória
-          window.location.href = "/entrar";
+
+          if (shouldRedirect) {
+            Navigate({ to: "/" });
+          }
         }
       },
 
@@ -117,8 +120,7 @@ export const useSession = create<UserState & UserActions>()(
       },
     }),
     {
-      name: "session-store", // unique name for localStorage key
-    }
-  )
+      name: "session-store",
+    },
+  ),
 );
-

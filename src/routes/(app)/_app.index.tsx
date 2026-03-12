@@ -27,7 +27,7 @@ function App() {
       return response.data;
     },
   });
-  console.log(data);
+
   const pacotes: Pacote[] = data || [];
   const totalPaginas = data?.totalPages || 0;
   const handleSearchSubmit = (e: React.SubmitEvent) => {
