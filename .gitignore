@@ -1,25 +1,23 @@
-<<<<<<< Updated upstream
-certs/*
-
-.DS_Store
-.env
-/node_modules/
-
-# React Router
-/.react-router/
-/build/
-=======
 node_modules
-.DS_Store
-dist
-dist-ssr
-*.local
-.env
-.nitro
-.tanstack
-.wrangler
+
+# Output
 .output
-.vinxi
-__unconfig*
-todos.json
->>>>>>> Stashed changes
+.vercel
+.netlify
+.wrangler
+/.svelte-kit
+/build
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.*
+!.env.example
+!.env.test
+
+# Vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
